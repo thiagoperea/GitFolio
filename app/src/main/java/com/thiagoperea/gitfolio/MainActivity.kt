@@ -32,9 +32,11 @@ class MainActivity : ComponentActivity() {
                     ) {
 
                         composable(AppDestinations.userList()) {
-                            UserListScreen { selectedUserId ->
-                                navigationController.navigate(AppDestinations.userDetails(selectedUserId))
-                            }
+                            UserListScreen(
+                                onUserSelected = { selectedUserId ->
+                                    navigationController.navigate(AppDestinations.userDetails(selectedUserId))
+                                }
+                            )
                         }
 
                         composable(AppDestinations.userDetails()) { backStackEntry ->
