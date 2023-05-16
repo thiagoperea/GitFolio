@@ -23,7 +23,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            
+
             val defaultProguardFile = getDefaultProguardFile("proguard-android-optimize.txt")
             proguardFiles(defaultProguardFile, "proguard-rules.pro")
         }
@@ -43,7 +43,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
     packaging {
