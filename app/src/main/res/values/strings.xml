@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GitFolio</string>
+    <string name="loading">Carregando</string>
 </resources>
