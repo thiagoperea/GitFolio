@@ -4,5 +4,5 @@ object AppDestinations {
 
     fun userList() = "user-list"
 
-    fun userDetails(selectedUserId: Any? = null) = "user-details/" + (selectedUserId ?: "{userId}")
+    fun userDetails(selectedUserId: String? = null) = "user-details/" + (selectedUserId ?: "{userId}")
 }
