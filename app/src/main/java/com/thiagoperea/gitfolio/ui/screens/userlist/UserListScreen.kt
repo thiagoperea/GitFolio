@@ -15,6 +15,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.thiagoperea.gitfolio.R
 import com.thiagoperea.gitfolio.ui.common.LoadingView
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -25,15 +28,39 @@ fun UserListScreen(
     onUserSelected: (String) -> Unit,
     viewModel: UserListViewModel = koinViewModel()
 ) {
+    val screenState = viewModel.screenState.value
+
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.loadUsers()
+    }
+
+    LaunchedEffect(screenState) {
+
+        if (screenState is UserListState.Error) {
+            coroutineScope.launch {
+                val actionResult = snackbarHostState.showSnackbar(
+                    message = context.getString(R.string.error_message, screenState.errorMessage),
+                    actionLabel = context.getString(R.string.try_again),
+                    duration = SnackbarDuration.Short
+                )
+
+                if (actionResult == SnackbarResult.ActionPerformed) {
+                    viewModel.loadUsers()
+                }
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "User List Screen",
+                        text = stringResource(R.string.user_list_screen),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -42,32 +69,11 @@ fun UserListScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { safePaddingValue ->
 
-        val screenState = viewModel.screenState.value
-
-        LaunchedEffect(Unit) {
-            viewModel.loadUsers()
-        }
-
-        LaunchedEffect(screenState) {
-
-            if (screenState is UserListState.Error) {
-                coroutineScope.launch {
-                    val actionResult = snackbarHostState.showSnackbar(
-                        message = "Error: ${screenState.errorMessage}",
-                        actionLabel = "Try again",
-                        duration = SnackbarDuration.Short
-                    )
-
-                    if (actionResult == SnackbarResult.ActionPerformed) {
-                        viewModel.loadUsers()
-                    }
-                }
-            }
-        }
-
-
         when (screenState) {
-            is UserListState.Loading -> LoadingView(Modifier.padding(safePaddingValue))
+            is UserListState.Loading -> LoadingView(
+                modifier = Modifier.padding(safePaddingValue)
+            )
+
             is UserListState.Success -> UserListScreenContent(
                 modifier = Modifier.padding(safePaddingValue),
                 users = screenState.users,
@@ -76,7 +82,9 @@ fun UserListScreen(
                 }
             )
 
-            is UserListState.Error -> UserListScreenContent()
+            is UserListState.Error -> UserListScreenContent(
+                modifier = Modifier.padding(safePaddingValue),
+            )
         }
     }
 }

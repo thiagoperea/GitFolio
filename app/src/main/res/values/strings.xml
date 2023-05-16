@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">GitFolio</string>
     <string name="loading">Carregando</string>
+    <string name="error_message">Error: %s</string>
+    <string name="try_again">Tente novamente</string>
+    <string name="user_list_screen">Lista de Usuários</string>
+    <string name="ops">Ops!</string>
+    <string name="no_data_found">Nenhum dado encontrado :(</string>
+    <string name="no_user_found">Nenhum usuário encontrado :(</string>
+    <string name="following_followers">%d seguidores\n%d seguindo</string>
 </resources>

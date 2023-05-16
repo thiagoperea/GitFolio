@@ -15,8 +15,14 @@ val NunitoFamily = FontFamily(
 )
 
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+    bodySmall = TextStyle(
+        fontFamily = NunitoFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+    ),
+
+    bodyMedium = TextStyle(
+        fontFamily = NunitoFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
     ),
@@ -24,12 +30,12 @@ val Typography = Typography(
     titleSmall = TextStyle(
         fontFamily = NunitoFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 21.sp
+        fontSize = 19.sp
     ),
 
     titleMedium = TextStyle(
         fontFamily = NunitoFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
+        fontSize = 21.sp
     )
 )
