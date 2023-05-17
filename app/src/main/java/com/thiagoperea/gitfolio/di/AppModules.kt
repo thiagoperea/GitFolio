@@ -7,7 +7,6 @@ import com.thiagoperea.gitfolio.ui.screens.userlist.UserListViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModelOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,7 +29,7 @@ val dataModule = module {
             .create(GitHubApi::class.java)
     }
 
-    singleOf(::GitHubRepository)
+    single { GitHubRepository(get()) }
 }
 
 val viewModelModule = module {
