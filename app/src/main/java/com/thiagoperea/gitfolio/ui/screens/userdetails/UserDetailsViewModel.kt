@@ -3,8 +3,6 @@ package com.thiagoperea.gitfolio.ui.screens.userdetails
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thiagoperea.gitfolio.data.model.RepositoryResponse
-import com.thiagoperea.gitfolio.data.model.UserDetailsResponse
 import com.thiagoperea.gitfolio.data.repository.GitHubRepository
 import kotlinx.coroutines.launch
 
@@ -31,16 +29,4 @@ class UserDetailsViewModel(
             }
         }
     }
-}
-
-sealed class UserDetailsState {
-
-    object Loading : UserDetailsState()
-
-    data class Success(
-        val userDetails: UserDetailsResponse,
-        val userRepositories: List<RepositoryResponse>
-    ) : UserDetailsState()
-
-    data class Error(val errorMessage: String) : UserDetailsState()
 }
