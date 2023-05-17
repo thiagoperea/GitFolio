@@ -79,11 +79,17 @@ fun UserListScreen(
                 users = screenState.users,
                 onUserSelected = { userSelected ->
                     onUserSelected(userSelected.name)
+                },
+                onSearchRequest = { username ->
+                    viewModel.loadUser(username)
                 }
             )
 
             is UserListState.Error -> UserListScreenContent(
                 modifier = Modifier.padding(safePaddingValue),
+                onSearchRequest = { username ->
+                    viewModel.loadUser(username)
+                }
             )
         }
     }

@@ -1,6 +1,7 @@
 package com.thiagoperea.gitfolio.ui.screens.userlist
 
 import com.thiagoperea.gitfolio.CustomCoroutineRule
+import com.thiagoperea.gitfolio.data.model.UserDetailsResponse
 import com.thiagoperea.gitfolio.data.model.UserResponse
 import com.thiagoperea.gitfolio.data.repository.GitHubRepository
 import io.mockk.MockKAnnotations
@@ -58,6 +59,38 @@ class UserListViewModelTest {
 
         //Act
         viewModel.loadUsers()
+        advanceUntilIdle()
+
+        //Assert
+        assertTrue(viewModel.screenState.value is UserListState.Error)
+    }
+
+    @Test
+    fun testLoadUserSuccess() = runTest {
+        //Arrange
+        val usersResponse = mockk<UserDetailsResponse>(relaxed = true)
+
+        coEvery {
+            repositoryMock.getUserDetails("id")
+        } returns usersResponse
+
+        //Act
+        viewModel.loadUser("id")
+        advanceUntilIdle()
+
+        //Assert
+        assertTrue(viewModel.screenState.value is UserListState.Success)
+    }
+
+    @Test
+    fun testLoadUserFailure() = runTest {
+        //Arrange
+        coEvery {
+            repositoryMock.getUserDetails("id")
+        } throws RuntimeException()
+
+        //Act
+        viewModel.loadUser("id")
         advanceUntilIdle()
 
         //Assert
